@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id               String   @id @default(uuid())
+  productId        String   @unique @map("product_id")
+  title            String
+  category         String?
+  brandName        String?  @map("brand_name")
+  imageUrl         String   @map("image_url")
+  price            Decimal? @db.Decimal(10, 2)
+  extractedMetadata Json?   @map("extracted_metadata") @db.JsonB
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  visualEmbedding  ProductVisualEmbedding?
+  textEmbedding    ProductTextEmbedding?
+
+  @@map("products")
+  @@index([category])
+  @@index([brandName])
+}
+
+model ScrapedImage {
+  id               Int      @id @default(autoincrement())
+  imageUrl         String   @map("image_url")
+  sourceUrl        String?  @map("source_url")
+  sourcePlatform   String   @map("source_platform")
+  caption          String?  @db.Text
+  hashtags         String[]
+  engagementMetrics Json?   @map("engagement_metrics") @db.JsonB
+  postedDate       DateTime? @map("posted_date")
+  userInfo         Json?    @map("user_info") @db.JsonB
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  embedding        ScrapedImageEmbedding?
+
+  @@map("scraped_images")
+  @@index([sourcePlatform])
+  @@index([createdAt])
+}
+
+model ProductVisualEmbedding {
+  productId        String   @id @map("product_id")
+  embedding        Unsupported("vector(512)")
+  modelVersion     String   @map("model_version")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  product          Product  @relation(fields: [productId], references: [productId], onDelete: Cascade)
+
+  @@map("product_visual_embeddings")
+}
+
+model ProductTextEmbedding {
+  productId        String   @id @map("product_id")
+  embedding        Unsupported("vector(384)")
+  textSource       String   @map("text_source")
+  modelVersion     String   @map("model_version")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  product          Product  @relation(fields: [productId], references: [productId], onDelete: Cascade)
+
+  @@map("product_text_embeddings")
+}
+
+model ScrapedImageEmbedding {
+  scrapedImageId   Int      @id @map("scraped_image_id")
+  embedding        Unsupported("vector(512)")
+  modelVersion     String   @map("model_version")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  scrapedImage     ScrapedImage @relation(fields: [scrapedImageId], references: [id], onDelete: Cascade)
+
+  @@map("scraped_image_embeddings")
+}
+

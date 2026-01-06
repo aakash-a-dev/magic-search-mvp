@@ -1,0 +1,47 @@
+{
+  "name": "vibe-search-server",
+  "version": "1.0.0",
+  "description": "Multimodal fashion search MVP - Server",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "postinstall": "playwright install chromium",
+    "playwright:install": "playwright install chromium",
+    "db:setup": "tsx scripts/setup-db.ts",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "scrape:pinterest": "tsx src/scripts/scrape-pinterest.ts",
+    "scrape:instagram": "tsx src/scripts/scrape-instagram.ts",
+    "test:instagram": "tsx src/scripts/test-instagram.ts",
+    "seed:products": "tsx src/scripts/seed-products.ts",
+    "process:products": "tsx src/scripts/process-products.ts",
+    "process:images": "tsx src/scripts/process-scraped-images.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.19.0",
+    "axios": "^1.7.7",
+    "bullmq": "^5.4.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.1",
+    "ioredis": "^5.4.1",
+    "playwright": "^1.48.0",
+    "sharp": "^0.33.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.12",
+    "prisma": "^5.19.0",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.4"
+  }
+}
+
