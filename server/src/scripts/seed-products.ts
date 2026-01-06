@@ -7,7 +7,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Nike Dunk Low Panda Black White Sneakers',
     category: 'Footwear',
     brandName: 'Nike',
-    imageUrl: 'https://example.com/nike-dunk-panda.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
     price: 110.00,
   },
   {
@@ -15,7 +15,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Adidas Originals Superstar White Black',
     category: 'Footwear',
     brandName: 'Adidas',
-    imageUrl: 'https://example.com/adidas-superstar.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800',
     price: 80.00,
   },
   {
@@ -23,7 +23,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Prada Classic Leather Handbag Black',
     category: 'Accessories',
     brandName: 'Prada',
-    imageUrl: 'https://example.com/prada-handbag.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
     price: 2500.00,
   },
   {
@@ -31,7 +31,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Patagonia Baggies 5" Shorts Blue',
     category: 'Bottoms',
     brandName: 'Patagonia',
-    imageUrl: 'https://example.com/patagonia-baggies.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
     price: 65.00,
   },
   {
@@ -39,7 +39,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Ralph Lauren Classic Fit Swim Trunks Navy',
     category: 'Bottoms',
     brandName: 'Ralph Lauren',
-    imageUrl: 'https://example.com/ralph-swim-trunks.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
     price: 75.00,
   },
   {
@@ -47,7 +47,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Ray-Ban Aviator Classic Gold',
     category: 'Accessories',
     brandName: 'Ray-Ban',
-    imageUrl: 'https://example.com/rayban-aviator.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800',
     price: 154.00,
   },
   {
@@ -55,7 +55,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Cartier Santos Watch Stainless Steel',
     category: 'Accessories',
     brandName: 'Cartier',
-    imageUrl: 'https://example.com/cartier-santos.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',
     price: 7500.00,
   },
   {
@@ -63,7 +63,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Oversized Black Hoodie Streetwear',
     category: 'Tops',
     brandName: null,
-    imageUrl: 'https://example.com/black-hoodie.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800',
     price: 45.00,
   },
 ];

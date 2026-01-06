@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 from functools import lru_cache
 
 class Settings(BaseSettings):
-    DATABASE_URL: str
+    DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/vibe_search"
     REDIS_URL: str = "redis://localhost:6379"
     PORT: int = 8000
     HOST: str = "0.0.0.0"
@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     
     class Config:
         env_file = ".env"
+        env_file_encoding = "utf-8"
         case_sensitive = True
 
 @lru_cache()

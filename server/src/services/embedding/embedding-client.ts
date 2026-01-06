@@ -96,5 +96,14 @@ export class EmbeddingClient {
       return false;
     }
   }
+
+  async readinessCheck(): Promise<boolean> {
+    try {
+      const response = await this.client.get('/health/ready');
+      return response.status === 200;
+    } catch {
+      return false;
+    }
+  }
 }
 

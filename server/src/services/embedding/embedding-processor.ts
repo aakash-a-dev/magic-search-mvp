@@ -18,7 +18,9 @@ export class EmbeddingProcessor {
       throw new Error(`Product ${productId} not found`);
     }
 
-    const metadata = await this.client.extractMetadata(product.title, product.imageUrl);
+    const metadata = await this.client.extractMetadata(product.title, product.imageUrl).catch(() => {
+      return this.client.extractMetadata(product.title);
+    });
     
     await prisma.product.update({
       where: { productId },
@@ -27,29 +29,30 @@ export class EmbeddingProcessor {
       },
     });
 
-    const [visualEmbedding, textEmbedding] = await Promise.all([
-      this.client.generateImageEmbedding(product.imageUrl),
-      this.client.generateTextEmbedding(product.title),
-    ]);
+    const textEmbedding = await this.client.generateTextEmbedding(product.title);
 
-    await Promise.all([
-      prisma.$executeRaw`
+    await prisma.$executeRaw`
+      INSERT INTO product_text_embeddings (product_id, embedding, text_source, model_version, created_at)
+      VALUES (${product.productId}, ${this.arrayToVector(textEmbedding)}::vector, 'title', 'all-MiniLM-L6-v2', NOW())
+      ON CONFLICT (product_id) DO UPDATE
+      SET embedding = EXCLUDED.embedding,
+          model_version = EXCLUDED.model_version,
+          created_at = NOW()
+    `;
+
+    try {
+      const visualEmbedding = await this.client.generateImageEmbedding(product.imageUrl);
+      await prisma.$executeRaw`
         INSERT INTO product_visual_embeddings (product_id, embedding, model_version, created_at)
         VALUES (${product.productId}, ${this.arrayToVector(visualEmbedding)}::vector, 'clip-vit-base-patch32', NOW())
         ON CONFLICT (product_id) DO UPDATE
         SET embedding = EXCLUDED.embedding,
             model_version = EXCLUDED.model_version,
             created_at = NOW()
-      `,
-      prisma.$executeRaw`
-        INSERT INTO product_text_embeddings (product_id, embedding, text_source, model_version, created_at)
-        VALUES (${product.productId}, ${this.arrayToVector(textEmbedding)}::vector, 'title', 'all-MiniLM-L6-v2', NOW())
-        ON CONFLICT (product_id) DO UPDATE
-        SET embedding = EXCLUDED.embedding,
-            model_version = EXCLUDED.model_version,
-            created_at = NOW()
-      `,
-    ]);
+      `;
+    } catch (error: any) {
+      console.warn(`⚠ Skipping visual embedding for ${productId}: ${error.message || 'Image URL invalid or unreachable'}`);
+    }
   }
 
   async processScrapedImage(scrapedImageId: number): Promise<void> {
@@ -61,21 +64,19 @@ export class EmbeddingProcessor {
       throw new Error(`Scraped image ${scrapedImageId} not found`);
     }
 
-    const visualEmbedding = await this.client.generateImageEmbedding(scrapedImage.imageUrl);
-
-    let textEmbedding: number[] | null = null;
-    if (scrapedImage.caption) {
-      textEmbedding = await this.client.generateTextEmbedding(scrapedImage.caption);
+    try {
+      const visualEmbedding = await this.client.generateImageEmbedding(scrapedImage.imageUrl);
+      await prisma.$executeRaw`
+        INSERT INTO scraped_image_embeddings (scraped_image_id, embedding, model_version, created_at)
+        VALUES (${scrapedImageId}, ${this.arrayToVector(visualEmbedding)}::vector, 'clip-vit-base-patch32', NOW())
+        ON CONFLICT (scraped_image_id) DO UPDATE
+        SET embedding = EXCLUDED.embedding,
+            model_version = EXCLUDED.model_version,
+            created_at = NOW()
+      `;
+    } catch (error: any) {
+      throw new Error(`Failed to process image ${scrapedImageId}: ${error.message || 'Image URL invalid or unreachable'}`);
     }
-
-    await prisma.$executeRaw`
-      INSERT INTO scraped_image_embeddings (scraped_image_id, embedding, model_version, created_at)
-      VALUES (${scrapedImageId}, ${this.arrayToVector(visualEmbedding)}::vector, 'clip-vit-base-patch32', NOW())
-      ON CONFLICT (scraped_image_id) DO UPDATE
-      SET embedding = EXCLUDED.embedding,
-          model_version = EXCLUDED.model_version,
-          created_at = NOW()
-    `;
   }
 
   async processBatchProducts(productIds: string[]): Promise<{ success: number; failed: number }> {

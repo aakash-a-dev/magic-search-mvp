@@ -17,7 +17,16 @@ ML service for generating visual and text embeddings using CLIP and sentence-tra
 
 3. **Run service:**
    ```bash
-   uvicorn app.main:app --reload
+   python -m uvicorn app.main:app --reload
+   ```
+   
+   Or use the run script:
+   ```bash
+   # Windows
+   run.bat
+   
+   # Linux/Mac
+   ./run.sh
    ```
 
 ## API Endpoints

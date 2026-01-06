@@ -10,11 +10,28 @@ async function main() {
   
   if (!isHealthy) {
     console.error('Embedding service is not available. Please start it first.');
-    console.error('Run: cd embedding-service && uvicorn app.main:app --reload');
+    console.error('Run: cd embedding-service && python -m uvicorn app.main:app --reload');
     process.exit(1);
   }
 
-  console.log('✓ Embedding service is healthy\n');
+  console.log('Checking if models are loaded...');
+  let isReady = await client.readinessCheck();
+  let attempts = 0;
+  const maxAttempts = 60;
+  
+  while (!isReady && attempts < maxAttempts) {
+    console.log(`Waiting for models to load... (${attempts + 1}/${maxAttempts})`);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    isReady = await client.readinessCheck();
+    attempts++;
+  }
+  
+  if (!isReady) {
+    console.error('Models failed to load. Please check the embedding service logs.');
+    process.exit(1);
+  }
+
+  console.log('✓ Embedding service is ready\n');
 
   const processor = new EmbeddingProcessor();
   
