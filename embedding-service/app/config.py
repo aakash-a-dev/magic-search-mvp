@@ -8,8 +8,11 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     LOG_LEVEL: str = "info"
     
-    CLIP_MODEL_NAME: str = "openai/clip-vit-base-patch32"
-    TEXT_MODEL_NAME: str = "sentence-transformers/all-MiniLM-L6-v2"
+    # Upgraded to better models for improved accuracy
+    # CLIP ViT-B/32 is larger and more accurate than base-patch32
+    CLIP_MODEL_NAME: str = "openai/clip-vit-base-patch32"  # Can upgrade to "openai/clip-vit-large-patch14" for even better results (requires more GPU memory)
+    # all-mpnet-base-v2 is significantly better than MiniLM-L6-v2 for semantic understanding
+    TEXT_MODEL_NAME: str = "sentence-transformers/all-mpnet-base-v2"
     
     MAX_BATCH_SIZE: int = 32
     DEVICE: str = "cpu"

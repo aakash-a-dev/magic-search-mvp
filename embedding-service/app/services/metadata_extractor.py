@@ -116,3 +116,6 @@ class MetadataExtractor:
         colors = kmeans.cluster_centers_.astype(int).tolist()
         return colors
 
+
+
+

@@ -29,11 +29,13 @@ export class EmbeddingProcessor {
       },
     });
 
-    const textEmbedding = await this.client.generateTextEmbedding(product.title);
+    // Create enriched text for better embeddings: include title, category, brand, colors, style
+    const enrichedText = this.createEnrichedText(product.title, metadata, product.category, product.brandName);
+    const textEmbedding = await this.client.generateTextEmbedding(enrichedText);
 
     await prisma.$executeRaw`
       INSERT INTO product_text_embeddings (product_id, embedding, text_source, model_version, created_at)
-      VALUES (${product.productId}, ${this.arrayToVector(textEmbedding)}::vector, 'title', 'all-MiniLM-L6-v2', NOW())
+      VALUES (${product.productId}, ${this.arrayToVector(textEmbedding)}::vector, 'enriched', 'all-mpnet-base-v2', NOW())
       ON CONFLICT (product_id) DO UPDATE
       SET embedding = EXCLUDED.embedding,
           model_version = EXCLUDED.model_version,
@@ -129,6 +131,32 @@ export class EmbeddingProcessor {
 
     const ids = scrapedImages.map(img => img.id);
     return this.processBatchScrapedImages(ids);
+  }
+
+  private createEnrichedText(
+    title: string,
+    metadata: any,
+    category: string | null,
+    brandName: string | null
+  ): string {
+    const parts: string[] = [title];
+    
+    if (brandName) parts.push(brandName);
+    if (category) parts.push(category);
+    
+    if (metadata) {
+      if (metadata.brand) parts.push(metadata.brand);
+      if (metadata.category) parts.push(metadata.category);
+      if (metadata.colors && Array.isArray(metadata.colors) && metadata.colors.length > 0) {
+        parts.push(metadata.colors.join(' '));
+      }
+      if (metadata.style && Array.isArray(metadata.style) && metadata.style.length > 0) {
+        parts.push(metadata.style.join(' '));
+      }
+      if (metadata.type) parts.push(metadata.type);
+    }
+    
+    return parts.join(' ').trim();
   }
 
   private arrayToVector(arr: number[]): string {

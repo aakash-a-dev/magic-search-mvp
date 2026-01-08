@@ -19,11 +19,23 @@ class EmbeddingService:
             response.raise_for_status()
             return Image.open(io.BytesIO(response.content)).convert("RGB")
     
-    async def generate_visual_embedding(self, image: Union[str, Image.Image]) -> np.ndarray:
+    def load_image_from_base64(self, base64_string: str) -> Image.Image:
+        import base64
+        if base64_string.startswith('data:image'):
+            base64_string = base64_string.split(',')[1]
+        image_data = base64.b64decode(base64_string)
+        return Image.open(io.BytesIO(image_data)).convert("RGB")
+    
+    async def generate_visual_embedding(self, image: Union[str, Image.Image, bytes]) -> np.ndarray:
         clip_model, clip_processor = self.model_loader.get_clip_model()
         
         if isinstance(image, str):
-            image = await self.download_image(image)
+            if image.startswith('data:image') or (len(image) > 100 and not image.startswith('http')):
+                image = self.load_image_from_base64(image)
+            else:
+                image = await self.download_image(image)
+        elif isinstance(image, bytes):
+            image = Image.open(io.BytesIO(image)).convert("RGB")
         
         inputs = clip_processor(images=image, return_tensors="pt")
         inputs = {k: v.to(self.model_loader.device) for k, v in inputs.items()}
@@ -65,4 +77,7 @@ class EmbeddingService:
         text_model = self.model_loader.get_text_model()
         embeddings = text_model.encode(texts, normalize_embeddings=True, batch_size=32)
         return [emb for emb in embeddings]
+
+
+
 

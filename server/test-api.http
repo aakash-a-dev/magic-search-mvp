@@ -1,0 +1,341 @@
+### ============================================
+### VIBE SEARCH API - Complete Test Suite
+### ============================================
+
+### Health Check
+GET http://localhost:3000/health
+
+### Root Endpoint (API Info)
+GET http://localhost:3000/
+
+### ============================================
+### PRODUCT SEARCH ENDPOINTS
+### ============================================
+
+### Text Search - Basic (Beach/Summer Query)
+POST http://localhost:3000/api/search/text
+Content-Type: application/json
+
+{
+  "query": "beach shorts for summer vacation",
+  "top_k": 10
+}
+
+### Text Search - Simple Keyword
+POST http://localhost:3000/api/search/text
+Content-Type: application/json
+
+{
+  "query": "sneakers",
+  "top_k": 10
+}
+
+### Text Search - With Category Filter
+POST http://localhost:3000/api/search/text
+Content-Type: application/json
+
+{
+  "query": "shorts",
+  "top_k": 10,
+  "filters": {
+    "category": ["Bottoms"]
+  }
+}
+
+### Text Search - With Multiple Filters
+POST http://localhost:3000/api/search/text
+Content-Type: application/json
+
+{
+  "query": "sneakers",
+  "top_k": 5,
+  "filters": {
+    "category": ["Footwear"],
+    "brands": ["Nike", "Adidas"],
+    "price_range": [50, 200]
+  }
+}
+
+### Text Search - Luxury Items
+POST http://localhost:3000/api/search/text
+Content-Type: application/json
+
+{
+  "query": "luxury watch",
+  "top_k": 5
+}
+
+### Text Search - Streetwear
+POST http://localhost:3000/api/search/text
+Content-Type: application/json
+
+{
+  "query": "streetwear hoodie",
+  "top_k": 10
+}
+
+### Image Search - Basic (URL)
+POST http://localhost:3000/api/search/image
+Content-Type: application/json
+
+{
+  "external_image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+  "top_k": 10
+}
+
+### Image Search - Base64 (Alternative to file upload)
+POST http://localhost:3000/api/search/image
+Content-Type: application/json
+
+{
+  "image_base64": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=",
+  "top_k": 10
+}
+
+### Image Search - File Upload (Use with form-data)
+# Note: Use multipart/form-data with field name "image"
+# POST http://localhost:3000/api/search/image
+# Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+# 
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW
+# Content-Disposition: form-data; name="image"; filename="test.jpg"
+# Content-Type: image/jpeg
+# 
+# < ./path/to/your/image.jpg
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW
+# Content-Disposition: form-data; name="top_k"
+# 
+# 10
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Image Search - With Filters
+POST http://localhost:3000/api/search/image
+Content-Type: application/json
+
+{
+  "external_image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+  "top_k": 5,
+  "filters": {
+    "category": ["Footwear"],
+    "price_range": [50, 300]
+  },
+  "rerank": true
+}
+
+### Image Search - Using Scraped Image URL
+POST http://localhost:3000/api/search/image
+Content-Type: application/json
+
+{
+  "external_image_url": "https://i.pinimg.com/564x/example.jpg",
+  "top_k": 10
+}
+
+### Hybrid Search - Image + Text
+POST http://localhost:3000/api/search/hybrid
+Content-Type: application/json
+
+{
+  "image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+  "query": "black white sneakers",
+  "top_k": 10,
+  "visual_weight": 0.6,
+  "text_weight": 0.4
+}
+
+### Hybrid Search - Text Only
+POST http://localhost:3000/api/search/hybrid
+Content-Type: application/json
+
+{
+  "query": "luxury watch",
+  "top_k": 5
+}
+
+### Hybrid Search - Image Only
+POST http://localhost:3000/api/search/hybrid
+Content-Type: application/json
+
+{
+  "image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+  "top_k": 10
+}
+
+### Hybrid Search - With Filters
+POST http://localhost:3000/api/search/hybrid
+Content-Type: application/json
+
+{
+  "image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+  "query": "sneakers",
+  "top_k": 5,
+  "filters": {
+    "category": ["Footwear"],
+    "brands": ["Nike"]
+  },
+  "visual_weight": 0.7,
+  "text_weight": 0.3
+}
+
+### ============================================
+### SCRAPED IMAGES ENDPOINTS
+### ============================================
+
+### Get Scraped Images Gallery - All
+GET http://localhost:3000/api/search/scraped-images?limit=50&offset=0
+
+### Get Scraped Images Gallery - Pinterest Only
+GET http://localhost:3000/api/search/scraped-images?platform=pinterest&limit=50&offset=0
+
+### Get Scraped Images Gallery - Instagram Only
+GET http://localhost:3000/api/search/scraped-images?platform=instagram&limit=50&offset=0
+
+### Get Scraped Images Gallery - Pagination (Page 2)
+GET http://localhost:3000/api/search/scraped-images?limit=20&offset=20
+
+### Search Scraped Images - By Image
+POST http://localhost:3000/api/search/scraped-images
+Content-Type: application/json
+
+{
+  "image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+  "top_k": 10,
+  "platform": "pinterest"
+}
+
+### Search Scraped Images - By Text (Streetwear)
+POST http://localhost:3000/api/search/scraped-images
+Content-Type: application/json
+
+{
+  "query": "streetwear outfit",
+  "top_k": 10,
+  "platform": "pinterest"
+}
+
+### Search Scraped Images - By Text (Fashion)
+POST http://localhost:3000/api/search/scraped-images
+Content-Type: application/json
+
+{
+  "query": "fashion",
+  "top_k": 20
+}
+
+### Search Scraped Images - By Text (Luxury)
+POST http://localhost:3000/api/search/scraped-images
+Content-Type: application/json
+
+{
+  "query": "luxury fashion",
+  "top_k": 10,
+  "platform": "instagram"
+}
+
+### ============================================
+### PRODUCTS ENDPOINTS
+### ============================================
+
+### Get All Products
+GET http://localhost:3000/api/search/products?limit=50&offset=0
+
+### Get Products - Pagination (Page 2)
+GET http://localhost:3000/api/search/products?limit=20&offset=20
+
+### ============================================
+### UNIFIED ENDPOINTS
+### ============================================
+
+### Get Unified Data (Scraped Images + Products)
+GET http://localhost:3000/api/search/unified?scraped_limit=20&products_limit=20
+
+### Get Unified Data - Pinterest Only
+GET http://localhost:3000/api/search/unified?scraped_limit=20&products_limit=20&platform=pinterest
+
+### Get Unified Data - Instagram Only
+GET http://localhost:3000/api/search/unified?scraped_limit=20&products_limit=20&platform=instagram
+
+### Get Unified Data - Custom Limits
+GET http://localhost:3000/api/search/unified?scraped_limit=10&products_limit=30&scraped_offset=0&products_offset=0
+
+### ============================================
+### CLICK-TO-SEARCH ENDPOINTS
+### ============================================
+
+### Search Products from Scraped Image (Click to Search)
+POST http://localhost:3000/api/search/from-scraped-image
+Content-Type: application/json
+
+{
+  "scraped_image_id": 1,
+  "top_k": 10
+}
+
+### Search Products from Scraped Image - With Filters
+POST http://localhost:3000/api/search/from-scraped-image
+Content-Type: application/json
+
+{
+  "scraped_image_id": 1,
+  "top_k": 10,
+  "filters": {
+    "category": ["Footwear"],
+    "price_range": [50, 200]
+  }
+}
+
+### Search Products from Scraped Image - Category Filter
+POST http://localhost:3000/api/search/from-scraped-image
+Content-Type: application/json
+
+{
+  "scraped_image_id": 1,
+  "top_k": 5,
+  "filters": {
+    "category": ["Bottoms"],
+    "brands": ["Patagonia", "Ralph Lauren"]
+  }
+}
+
+### ============================================
+### ERROR TESTING (Optional)
+### ============================================
+
+### Invalid Text Search - Empty Query
+POST http://localhost:3000/api/search/text
+Content-Type: application/json
+
+{
+  "query": "",
+  "top_k": 10
+}
+
+### Invalid Image Search - Invalid URL
+POST http://localhost:3000/api/search/image
+Content-Type: application/json
+
+{
+  "external_image_url": "not-a-valid-url",
+  "top_k": 10
+}
+
+### Invalid Scraped Image ID
+POST http://localhost:3000/api/search/from-scraped-image
+Content-Type: application/json
+
+{
+  "scraped_image_id": 99999,
+  "top_k": 10
+}
+
+### Invalid Filters - Negative Price
+POST http://localhost:3000/api/search/text
+Content-Type: application/json
+
+{
+  "query": "sneakers",
+  "top_k": 10,
+  "filters": {
+    "price_range": [-10, 200]
+  }
+}

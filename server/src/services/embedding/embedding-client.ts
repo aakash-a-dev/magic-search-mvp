@@ -48,10 +48,16 @@ export class EmbeddingClient {
     });
   }
 
-  async generateImageEmbedding(imageUrl: string): Promise<number[]> {
+  async generateImageEmbedding(imageUrlOrBase64: string): Promise<number[]> {
+    const isBase64 = imageUrlOrBase64.startsWith('data:image') || (!imageUrlOrBase64.startsWith('http') && imageUrlOrBase64.length > 100);
+    
+    const payload = isBase64 
+      ? { image_base64: imageUrlOrBase64 }
+      : { image_url: imageUrlOrBase64 };
+    
     const response = await this.client.post<EmbeddingResponse>(
       '/api/v1/embeddings/image',
-      { image_url: imageUrl }
+      payload
     );
     return response.data.embedding;
   }

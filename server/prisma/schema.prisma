@@ -59,7 +59,7 @@ model ProductVisualEmbedding {
 
 model ProductTextEmbedding {
   productId        String   @id @map("product_id")
-  embedding        Unsupported("vector(384)")
+  embedding        Unsupported("vector(768)")  // Updated for all-mpnet-base-v2 (was 384 for all-MiniLM-L6-v2)
   textSource       String   @map("text_source")
   modelVersion     String   @map("model_version")
   createdAt        DateTime @default(now()) @map("created_at")

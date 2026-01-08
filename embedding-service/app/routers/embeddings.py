@@ -12,7 +12,13 @@ embedding_service = EmbeddingService(model_loader)
 metadata_extractor = MetadataExtractor()
 
 class ImageEmbeddingRequest(BaseModel):
-    image_url: HttpUrl
+    image_url: Optional[str] = None
+    image_base64: Optional[str] = None
+    
+    def __init__(self, **data):
+        super().__init__(**data)
+        if not self.image_url and not self.image_base64:
+            raise ValueError("Either image_url or image_base64 must be provided")
 
 class TextEmbeddingRequest(BaseModel):
     text: str
@@ -42,7 +48,10 @@ class MetadataResponse(BaseModel):
 @router.post("/embeddings/image", response_model=EmbeddingResponse)
 async def generate_image_embedding(request: ImageEmbeddingRequest):
     try:
-        embedding = await embedding_service.generate_visual_embedding(str(request.image_url))
+        if request.image_base64:
+            embedding = await embedding_service.generate_visual_embedding(request.image_base64)
+        else:
+            embedding = await embedding_service.generate_visual_embedding(str(request.image_url))
         return EmbeddingResponse(
             embedding=embedding.tolist(),
             dimension=len(embedding)
@@ -106,4 +115,7 @@ async def extract_metadata(request: MetadataRequest):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to extract metadata: {str(e)}")
+
+
+
 

@@ -51,7 +51,8 @@ export class ProductService {
     });
   }
 
-  async findAll(limit: number = 100, offset: number = 0) {
+  async findAll(options: { limit?: number; offset?: number } = {}) {
+    const { limit = 100, offset = 0 } = options;
     return prisma.product.findMany({
       take: limit,
       skip: offset,

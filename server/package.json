@@ -19,24 +19,30 @@
     "test:instagram": "tsx src/scripts/test-instagram.ts",
     "seed:products": "tsx src/scripts/seed-products.ts",
     "process:products": "tsx src/scripts/process-products.ts",
-    "process:images": "tsx src/scripts/process-scraped-images.ts"
+    "process:images": "tsx src/scripts/process-scraped-images.ts",
+    "verify:embeddings": "tsx src/scripts/verify-embeddings.ts",
+    "migrate:text-embeddings": "tsx src/scripts/migrate-text-embeddings-to-768.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.19.0",
+    "@types/multer": "^2.0.0",
     "axios": "^1.7.7",
     "bullmq": "^5.4.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-rate-limit": "^7.4.1",
     "ioredis": "^5.4.1",
+    "multer": "^2.0.2",
     "playwright": "^1.48.0",
     "sharp": "^0.33.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.14.12",
     "prisma": "^5.19.0",
@@ -44,4 +50,3 @@
     "typescript": "^5.5.4"
   }
 }
-

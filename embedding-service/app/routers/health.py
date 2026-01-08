@@ -17,3 +17,6 @@ async def readiness_check():
         return {"status": "not_ready", "reason": "models_not_loaded"}, 503
     return {"status": "ready"}
 
+
+
+
