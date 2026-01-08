@@ -118,3 +118,6 @@ verifyEmbeddings()
   .catch(console.error)
   .finally(() => prisma.$disconnect());
 
+
+
+

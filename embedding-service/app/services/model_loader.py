@@ -42,13 +42,41 @@ class ModelLoader:
             logger.info(f"Loading models on device: {self.device}")
             
             logger.info(f"Loading CLIP model: {settings.CLIP_MODEL_NAME}")
+            try:
             self.clip_model = CLIPModel.from_pretrained(settings.CLIP_MODEL_NAME)
             self.clip_processor = CLIPProcessor.from_pretrained(settings.CLIP_MODEL_NAME)
+            except (OSError, ValueError) as e:
+                if "Consistency check failed" in str(e) or "force_download" in str(e):
+                    logger.warning(f"Model files corrupted, forcing re-download: {e}")
+                    logger.info("Re-downloading CLIP model with force_download=True")
+                    self.clip_model = CLIPModel.from_pretrained(settings.CLIP_MODEL_NAME, force_download=True)
+                    self.clip_processor = CLIPProcessor.from_pretrained(settings.CLIP_MODEL_NAME, force_download=True)
+                else:
+                    raise
+            
             self.clip_model.to(self.device)
             self.clip_model.eval()
             
             logger.info(f"Loading text model: {settings.TEXT_MODEL_NAME}")
+            try:
+                self.text_model = SentenceTransformer(settings.TEXT_MODEL_NAME, device=str(self.device))
+            except (OSError, ValueError) as e:
+                if "Consistency check failed" in str(e) or "force_download" in str(e):
+                    logger.warning(f"Text model files corrupted, forcing re-download: {e}")
+                    logger.info("Re-downloading text model")
+                    # SentenceTransformer doesn't have force_download, so we need to clear cache
+                    import os
+                    from pathlib import Path
+                    cache_dir = Path.home() / ".cache" / "huggingface" / "hub"
+                    # Clear the specific model cache
+                    model_cache = cache_dir / f"models--{settings.TEXT_MODEL_NAME.replace('/', '--')}"
+                    if model_cache.exists():
+                        logger.info(f"Clearing cache for {settings.TEXT_MODEL_NAME}")
+                        import shutil
+                        shutil.rmtree(model_cache, ignore_errors=True)
             self.text_model = SentenceTransformer(settings.TEXT_MODEL_NAME, device=str(self.device))
+                else:
+                    raise
             
             self._loaded = True
             logger.info("All models loaded successfully")

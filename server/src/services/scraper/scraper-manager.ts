@@ -15,6 +15,15 @@ export class ScraperManager {
   async initialize(): Promise<void> {
     this.browser = await chromium.launch({
       headless: this.config.headless ?? true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--no-first-run',
+        '--no-zygote',
+        '--disable-gpu',
+      ],
     });
   }
 

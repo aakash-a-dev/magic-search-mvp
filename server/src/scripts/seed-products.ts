@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { ProductService } from '../services/database/product.service';
+import prisma from '../config/database';
 
 const SAMPLE_PRODUCTS = [
   {
@@ -7,7 +8,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Nike Dunk Low Panda Black White Sneakers',
     category: 'Footwear',
     brandName: 'Nike',
-    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
+    imageUrl: 'https://static.nike.com/a/images/t_web_pdp_535_v2/f_auto/b1bcbca4-e853-4df7-b329-5be3c61ee057/NIKE+DUNK+LOW+RETRO.png',
     price: 110.00,
   },
   {
@@ -15,7 +16,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Adidas Originals Superstar White Black',
     category: 'Footwear',
     brandName: 'Adidas',
-    imageUrl: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800',
+    imageUrl: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/7ed0855435194229a525aad6009a0497_9366/Superstar_Shoes_White_EG4958_01_00_standard.jpg',
     price: 80.00,
   },
   {
@@ -23,7 +24,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Prada Classic Leather Handbag Black',
     category: 'Accessories',
     brandName: 'Prada',
-    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
+    imageUrl: 'https://dawntown.co.in/cdn/shop/files/Prada-Saffiano-Leather-Top-Handle-Bag-Black_6ecd6ebb-eade-463d-9f6b-74769b5a8193.jpg?v=1765270905&width=1047',
     price: 2500.00,
   },
   {
@@ -31,7 +32,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Patagonia Baggies 5" Shorts Blue',
     category: 'Bottoms',
     brandName: 'Patagonia',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSMSm5EybEgqhzR_xop0lI9scAm8I9hFienS-5uqFDi6Ncw-yrInfqZLzJwNEpIvEarcFGS8QmBmPB3pSDna3t6E7iJqGJRAZApd0Wl1U7vU21P7TrGpJ8R',
     price: 65.00,
   },
   {
@@ -39,7 +40,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Ralph Lauren Classic Fit Swim Trunks Navy',
     category: 'Bottoms',
     brandName: 'Ralph Lauren',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTy_vssRPlXxrxOxI9dg5z66RYuhF8s2G-xeJd5Q8MM0l88iUb2vW6ebzl-Xgzb6_COAd3twRqkEE0mhmx4AYe5tNKdDxgIUb9oeV8uSY2Q-vhWXydwI1P0&usqp=CAc',
     price: 75.00,
   },
   {
@@ -47,7 +48,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Ray-Ban Aviator Classic Gold',
     category: 'Accessories',
     brandName: 'Ray-Ban',
-    imageUrl: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800',
+    imageUrl: 'https://perfectoptics.in/cdn/shop/files/RB36251.jpg?v=1730298496',
     price: 154.00,
   },
   {
@@ -55,7 +56,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Cartier Santos Watch Stainless Steel',
     category: 'Accessories',
     brandName: 'Cartier',
-    imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',
+    imageUrl: 'https://img.tatacliq.com/images/i18/1316Wx1468H/MP000000022345472_1316Wx1468H_202406301656031.jpeg',
     price: 7500.00,
   },
   {
@@ -63,7 +64,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Oversized Black Hoodie Streetwear',
     category: 'Tops',
     brandName: null,
-    imageUrl: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800',
+    imageUrl: 'https://image.hm.com/assets/hm/75/bf/75bf9edbab4ca2327d205374cd9f26e539425353.jpg?imwidth=2160',
     price: 45.00,
   },
   {
@@ -71,7 +72,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Nike Air Force 1 White',
     category: 'Footwear',
     brandName: 'Nike',
-    imageUrl: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800',
+    imageUrl: 'https://laceupclub.com/cdn/shop/files/AF1-White-314192-117-4.jpg?v=1757995773&width=493',
     price: 90.00,
   },
   {
@@ -79,7 +80,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Adidas Ultraboost Running Shoes',
     category: 'Footwear',
     brandName: 'Adidas',
-    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
+    imageUrl: 'https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/4ff790231b7f461baee3c291e96b74af_9366/ULTRABOOST_1.0_SHOES_Black_HQ4199_HM1.jpg',
     price: 180.00,
   },
   {
@@ -87,7 +88,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Nike Air Max 90 Black',
     category: 'Footwear',
     brandName: 'Nike',
-    imageUrl: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800',
+    imageUrl: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSAppVflwZp0XL6S-6fJJujwVxsJ27sUy9Mx6jKKZipMIH1uC_xwvNq1GdCDQXvNclXd_E1OKWOc9CZz7yHEQXlyqceA4FRZctKg5zlIBSoIbqNfdCd3J5I_3A',
     price: 120.00,
   },
   {
@@ -95,7 +96,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Converse Chuck Taylor All Star High Top',
     category: 'Footwear',
     brandName: 'Converse',
-    imageUrl: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800',
+    imageUrl: 'https://converse.static.n7.io/media/catalog/product/m/9/m9160c_a_107x1.jpg',
     price: 55.00,
   },
   {
@@ -103,7 +104,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Vans Old Skool Black White',
     category: 'Footwear',
     brandName: 'Vans',
-    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
+    imageUrl: 'https://www.gravitypope.com/cdn/shop/files/1181CA0_01.jpg?v=1720210043&width=960',
     price: 65.00,
   },
   {
@@ -111,7 +112,7 @@ const SAMPLE_PRODUCTS = [
     title: 'New Balance 550 White Grey',
     category: 'Footwear',
     brandName: 'New Balance',
-    imageUrl: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800',
+    imageUrl: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQosTREuYD2su7tFiQ_RgGZ9EzuqduwhqIqWUqTvB0a9LH4LXOLD4MYj7OCEEyhe2g8gOeTiq00b8Vj1_bSQFfitacJphXbpezkzRIPwrXQG_QgKZtMydxCwW8',
     price: 100.00,
   },
   {
@@ -119,7 +120,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Puma Suede Classic Black',
     category: 'Footwear',
     brandName: 'Puma',
-    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
+    imageUrl: 'https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_750,h_750/global/399781/01/sv01/fnd/IND/fmt/png/Suede-Classic-Sneakers',
     price: 70.00,
   },
   {
@@ -127,7 +128,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Gucci GG Marmont Shoulder Bag',
     category: 'Accessories',
     brandName: 'Gucci',
-    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
+    imageUrl: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcR1xySxRj_o3tugbVspSU2xbPTy4ntlj0l1jNjIjtpxoqLyFpB21LL0NuAf059KKWUUlsLEoy99_sAiEFl-88RgI6r15O9NbsBYt82visvTLqEpwzXPbPEs',
     price: 2800.00,
   },
   {
@@ -135,7 +136,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Louis Vuitton Neverfull Tote Bag',
     category: 'Accessories',
     brandName: 'Louis Vuitton',
-    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
+    imageUrl: 'https://i.etsystatic.com/39194063/r/il/745337/7380248473/il_fullxfull.7380248473_p7mr.jpg',
     price: 1800.00,
   },
   {
@@ -143,7 +144,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Chanel Classic Flap Bag Black',
     category: 'Accessories',
     brandName: 'Chanel',
-    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
+    imageUrl: 'https://www.chanel.com/images///f_auto,q_auto:good,dpr_1.1/w_3200/-9543206371358.jpg%203200w',
     price: 5500.00,
   },
   {
@@ -151,7 +152,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Hermes Birkin Bag Brown',
     category: 'Accessories',
     brandName: 'Hermes',
-    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
+    imageUrl: 'https://loveluxury.co.uk/shop/wp-content/uploads/porto_placeholders/100x66.jpg',
     price: 12000.00,
   },
   {
@@ -159,7 +160,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Ray-Ban Wayfarer Classic Black',
     category: 'Accessories',
     brandName: 'Ray-Ban',
-    imageUrl: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800',
+    imageUrl: 'https://m.media-amazon.com/images/I/217xI0wHMhL._SY300_SX300_QL70_FMwebp_.jpg',
     price: 154.00,
   },
   {
@@ -167,7 +168,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Oakley Holbrook Sunglasses',
     category: 'Accessories',
     brandName: 'Oakley',
-    imageUrl: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800',
+    imageUrl: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQW-oQVEFWiE38TUwxF0KAYg1tY5bnyrvWTGirNQ9xHgHfGb7SRrfwk33TQ920k7KDtJ1nnv5S7i4kAFi4UMPrbsEL8CPMTy-Bz9m3XTut0cKtmq2V-2_PlcA',
     price: 120.00,
   },
   {
@@ -175,7 +176,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Persol 714 Steve McQueen',
     category: 'Accessories',
     brandName: 'Persol',
-    imageUrl: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800',
+    imageUrl: 'https://optimaloptic.com/550627-thickbox_default/persol-steve-mcqueen-po0714sm-96-53.jpg',
     price: 320.00,
   },
   {
@@ -183,7 +184,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Rolex Submariner Stainless Steel',
     category: 'Accessories',
     brandName: 'Rolex',
-    imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',
+    imageUrl: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTtYznn-9Ye4-c9YV84359hhFCBMJVy-tHrd9YYfKXkA2uK4DjsRHSFMO0mQMSO2uZoDHoHz4-zhTw2mDkG6aymwfgxFhGE',
     price: 8500.00,
   },
   {
@@ -191,7 +192,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Omega Speedmaster Professional',
     category: 'Accessories',
     brandName: 'Omega',
-    imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',
+    imageUrl: 'https://cdn1.ethoswatches.com/media/catalog/product/cache/6e5de5bc3d185d8179cdc7258143f41a/o/m/omega-speedmaster-310-30-42-50-01-002-large.jpg',
     price: 5200.00,
   },
   {
@@ -199,7 +200,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Tag Heuer Carrera Chronograph',
     category: 'Accessories',
     brandName: 'Tag Heuer',
-    imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',
+    imageUrl: 'https://cdn1.ethoswatches.com/media/catalog/product/cache/6e5de5bc3d185d8179cdc7258143f41a/t/a/tag-heuer-carrera-cbs2210-fc6534-large.jpg',
     price: 3500.00,
   },
   {
@@ -207,7 +208,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Seiko Prospex Diver Watch',
     category: 'Accessories',
     brandName: 'Seiko',
-    imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',
+    imageUrl: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRPLHsFWxgaH9CDrIal33Cu9ga-CjDvpnNMsNydFQu3B4HqpWWT2PXDygrZKZ5-qF9EXmZHnyisrfTmLpkRL4cwAFoAxkXaKw',
     price: 450.00,
   },
   {
@@ -215,7 +216,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Patagonia Better Sweater Jacket Navy',
     category: 'Tops',
     brandName: 'Patagonia',
-    imageUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800',
+    imageUrl: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR5smlMzTl58u3Aw5tERCpWG9FFDppFH7Umjp-JdvfEUQATdOlqndqjz0Ur-sgpZy1_j_U3DhLOMeNnzDLI3kqMB1CalAIdLxrA_1HwaGzL19hHa7vs15TWZT8',
     price: 149.00,
   },
   {
@@ -223,7 +224,7 @@ const SAMPLE_PRODUCTS = [
     title: 'North Face Denali Fleece Jacket',
     category: 'Tops',
     brandName: 'North Face',
-    imageUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800',
+    imageUrl: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTzVk7yOHxTin_j-CnltrKxbqS7kgoj7jwIm0q207jBU2WIqvx5GJv9Z2ABvclx2UzJgwc8GK7mufdtXe6cEKvVL1CAlfhmbQ',
     price: 199.00,
   },
   {
@@ -231,7 +232,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Arc\'teryx Atom LT Hoody',
     category: 'Tops',
     brandName: 'Arc\'teryx',
-    imageUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800',
+    imageUrl: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcT6mTRDzUQuR3oYnpNLF76oRDKRUaepdCucIwi3Bjqb5XudQr8azh-Ta0-WEYOEF13LfqGMN2AV8RMsFsyj2mVt1VJXs2v2Zw',
     price: 249.00,
   },
   {
@@ -239,7 +240,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Columbia Omni-Heat Jacket',
     category: 'Tops',
     brandName: 'Columbia',
-    imageUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800',
+    imageUrl: 'https://m.media-amazon.com/images/I/61lniz3Ug6L._SX679_.jpg',
     price: 129.00,
   },
   {
@@ -247,7 +248,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Streetwear Oversized Hoodie Black',
     category: 'Tops',
     brandName: null,
-    imageUrl: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800',
+    imageUrl: 'https://image.hm.com/assets/hm/75/bf/75bf9edbab4ca2327d205374cd9f26e539425353.jpg?imwidth=2160',
     price: 45.00,
   },
   {
@@ -255,7 +256,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Minimal White T-Shirt',
     category: 'Tops',
     brandName: null,
-    imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800',
+    imageUrl: 'https://image.hm.com/assets/hm/d0/47/d047a59f10d335e2351218f2bb286be6fc0a94b4.jpg?imwidth=2160',
     price: 25.00,
   },
   {
@@ -263,7 +264,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Classic Black T-Shirt',
     category: 'Tops',
     brandName: null,
-    imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800',
+    imageUrl: 'https://image.hm.com/assets/hm/a9/dc/a9dc669589ad414b8442a37f29441cd45675fbe1.jpg?imwidth=2160',
     price: 25.00,
   },
   {
@@ -271,7 +272,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Tommy Hilfiger Polo Shirt Navy',
     category: 'Tops',
     brandName: 'Tommy Hilfiger',
-    imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800',
+    imageUrl: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRlI-drDJrBe5NimzWcvN6V2dg0x63CJg3fIjpoCh56Q0boUWfngalnMd9mjFzYrC3z0-Uiwji5TbJGSxrjJ1ESom62VnGUZopY31z1zLeS',
     price: 65.00,
   },
   {
@@ -279,7 +280,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Calvin Klein Classic Fit T-Shirt White',
     category: 'Tops',
     brandName: 'Calvin Klein',
-    imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800',
+    imageUrl: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcShnvrdDTrLCIWdTyJgWqQ7t0RhTYfLgFExymEaVv3uACkj8Bq-Z_MG-MnbpLPBbc7hfHt4c65dGkvzHqrWa5maJYeKpap9',
     price: 35.00,
   },
   {
@@ -287,7 +288,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Hugo Boss Business Shirt White',
     category: 'Tops',
     brandName: 'Hugo Boss',
-    imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800',
+    imageUrl: 'https://m.media-amazon.com/images/I/91tVV5jBP-L._AC_UY1100_.jpg',
     price: 95.00,
   },
   {
@@ -295,7 +296,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Ralph Lauren Oxford Shirt Blue',
     category: 'Tops',
     brandName: 'Ralph Lauren',
-    imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800',
+    imageUrl: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQI-0bqqDpsoSXQwtS2QUZ0OBBIrCZysBfKwJpHeOMwhwhXPgyaYOHKf9Mrax5EnGtPMVhhQvNQuol6wv_lbfNMfYE9wEKsy7I5Uqba5Ufb-QTP7armoyqAhw',
     price: 89.00,
   },
   {
@@ -303,7 +304,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Patagonia Houdini Windbreaker',
     category: 'Tops',
     brandName: 'Patagonia',
-    imageUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcT9I2oaU38G95EofZj_QTI0qbB8QzH7aYmBmMaZouhhd7g5Hb2fm4yoH7BHOL3RstP7GcBN0mEsD3KSJTU6oI3ZxiYWTZf8FIihdrliFPXqLwqqsgQ6_y_K5zk',
     price: 99.00,
   },
   {
@@ -311,7 +312,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Patagonia Quandary Shorts 5"',
     category: 'Bottoms',
     brandName: 'Patagonia',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3QSF_fnRBXKnf7uFjd5Ase3r5r1MNnkjZQA&s',
     price: 59.00,
   },
   {
@@ -319,7 +320,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Patagonia Nine Trails Shorts',
     category: 'Bottoms',
     brandName: 'Patagonia',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://wornwear.patagonia.com/cdn/shop/files/twnvl5wkuhaqsyxuk4ud.jpg?v=1724162946',
     price: 69.00,
   },
   {
@@ -327,7 +328,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Ralph Lauren Chino Pants Khaki',
     category: 'Bottoms',
     brandName: 'Ralph Lauren',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://dtcralphlauren.scene7.com/is/image/PoloGSI/s7-1326342_lifestyle?$rl_4x5_pdp$',
     price: 95.00,
   },
   {
@@ -335,7 +336,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Ralph Lauren Swim Trunks Red',
     category: 'Bottoms',
     brandName: 'Ralph Lauren',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://cdn-images.farfetch-contents.com/16/39/26/63/16392663_31679797_1000.jpg',
     price: 75.00,
   },
   {
@@ -343,7 +344,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Tommy Hilfiger Jeans Dark Blue',
     category: 'Bottoms',
     brandName: 'Tommy Hilfiger',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTgQ5XanO0KJvAhrU9WmyIKCO1zDGAFdUPW6HG3T7evfj_niGns5kr_gkzZRyq-NwoOIjhjONTOlc8bRDLbF_vYeOnxXszIin6F1WOfhrybrQNGBhoEQTBrEaQ',
     price: 89.00,
   },
   {
@@ -351,7 +352,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Calvin Klein Jeans Slim Fit',
     category: 'Bottoms',
     brandName: 'Calvin Klein',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcS-qR5q5Ch4O_eVgqC3ftN75-8KKN0MJKwMvMaCoUPzs4CP6cCqLFjbCYo2nJ6gXfAKlI6LXTlvuwCPjiEyl_7eTEkDbZmojsE8sABIWzg',
     price: 79.00,
   },
   {
@@ -359,7 +360,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Streetwear Cargo Pants Black',
     category: 'Bottoms',
     brandName: null,
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRrVX-AAmRqauy1NJsPKfjPvXQre96T4DanA-aoOknVA3MfDeTt1eAcAR5hetk6HuHxDVI-11i-ZJXSXDb_N4TWsgAd0eZywCfCB3rgvGXss3FHcDIOxCRWYAo',
     price: 55.00,
   },
   {
@@ -367,7 +368,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Slim Fit Chino Pants Navy',
     category: 'Bottoms',
     brandName: null,
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRwE8UTPAzbTZdEA1QnSBMgNF-LhAzNo4QexwY8yRWXhh44Nj8TSBBvSw_qI7FChOJG8gZzzCIwfEaPgb7Dl6U1TUlP6Iy4LFS3X3DXb20',
     price: 45.00,
   },
   {
@@ -375,7 +376,7 @@ const SAMPLE_PRODUCTS = [
     title: 'North Face Apex Shorts',
     category: 'Bottoms',
     brandName: 'North Face',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://u-mercari-images.mercdn.net/photos/m64665859492_1.jpg',
     price: 55.00,
   },
   {
@@ -383,7 +384,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Arc\'teryx Gamma LT Pants',
     category: 'Bottoms',
     brandName: 'Arc\'teryx',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcR4vHpmWjz2er0rR43kNOVLM1yVLKfB1hlXt8Xzgmve3RTSYn7BmD1OCu7RGmeoewfTbsmozDgOqMaERiL5un3rozUpyUpcj-AKAiVrpBqmfkvw2dUdEJrtTw',
     price: 199.00,
   },
   {
@@ -391,7 +392,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Nike Dri-FIT Training Shorts',
     category: 'Bottoms',
     brandName: 'Nike',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQlg1y8_5OMqgDcPkbubPv1h0JKNUda08_c1apaW33wuq2HNROYgXSrI5Ifs8eu4dP2aWasSVho5rWlowskzoyGkjViR9_N0w',
     price: 35.00,
   },
   {
@@ -399,7 +400,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Adidas Tiro Training Pants',
     category: 'Bottoms',
     brandName: 'Adidas',
-    imageUrl: 'https://images.unsplash.com/photo-1506629905607-ccf4c0e1b0c3?w=800',
+    imageUrl: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRh6JepAovevLhcDOZZn9-e13KcOpquQ28Ti7frEDlAoGCj_LqDkhNgkSkjzlFnaOCevZbBc8jDiy_EIIEq_tJbhCNLV31X',
     price: 45.00,
   },
   {
@@ -407,7 +408,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Prada Saffiano Leather Wallet',
     category: 'Accessories',
     brandName: 'Prada',
-    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
+    imageUrl: '',
     price: 450.00,
   },
   {
@@ -415,7 +416,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Gucci Belt with GG Buckle',
     category: 'Accessories',
     brandName: 'Gucci',
-    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
+    imageUrl: 'https://www.onudesignerwear.com/images/gucci-leather-belt-gg-buckle-black-silver-p1687-3544_image.jpg',
     price: 650.00,
   },
   {
@@ -423,7 +424,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Louis Vuitton Monogram Wallet',
     category: 'Accessories',
     brandName: 'Louis Vuitton',
-    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
+    imageUrl: 'https://in.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multiple-wallet--M60895_PM2_Front%20view.jpg',
     price: 550.00,
   },
   {
@@ -431,7 +432,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Ray-Ban Clubmaster Classic',
     category: 'Accessories',
     brandName: 'Ray-Ban',
-    imageUrl: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800',
+    imageUrl: 'https://india.ray-ban.com/media/catalog/product/cache/9198bde1d0eff71feec5e39d680e88c5/8/0/805289346890_1_4.jpg',
     price: 154.00,
   },
   {
@@ -439,7 +440,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Nike Air Max 270 White',
     category: 'Footwear',
     brandName: 'Nike',
-    imageUrl: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfWk0_Gb0qYLl8Bg4sj3NQZdY4aKzvqM6Sbg&s',
     price: 150.00,
   },
   {
@@ -447,7 +448,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Adidas Yeezy Boost 350',
     category: 'Footwear',
     brandName: 'Adidas',
-    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
+    imageUrl: 'https://m.media-amazon.com/images/I/51x2R-tYE4L._AC_UY1000_.jpg',
     price: 220.00,
   },
   {
@@ -455,7 +456,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Nike Blazer Mid Vintage',
     category: 'Footwear',
     brandName: 'Nike',
-    imageUrl: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800',
+    imageUrl: 'https://static.nike.com/a/images/t_web_pdp_936_v2/f_auto/fb7eda3c-5ac8-4d05-a18f-1c2c5e82e36e/BLAZER+MID+%2777+VNTG.png',
     price: 85.00,
   },
   {
@@ -463,7 +464,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Converse One Star Low Top',
     category: 'Footwear',
     brandName: 'Converse',
-    imageUrl: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800',
+    imageUrl: 'https://www.converse.in/media/catalog/product/1/7/171327c_g_107x1-web23.jpg',
     price: 60.00,
   },
   {
@@ -471,7 +472,7 @@ const SAMPLE_PRODUCTS = [
     title: 'Vans Authentic White',
     category: 'Footwear',
     brandName: 'Vans',
-    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
+    imageUrl: 'https://www.superkicks.in/cdn/shop/products/WHITE-1.jpg?v=1675958328',
     price: 55.00,
   },
   {
@@ -479,7 +480,7 @@ const SAMPLE_PRODUCTS = [
     title: 'New Balance 574 Classic Grey',
     category: 'Footwear',
     brandName: 'New Balance',
-    imageUrl: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy7pOAKSPf0ugmYpHy5E4mjSfppczwjoGimg&s',
     price: 80.00,
   },
 ];
@@ -488,12 +489,20 @@ async function main() {
   const productService = new ProductService();
 
   try {
+    console.log('Clearing existing products...');
+    // Delete all products (embeddings will be cascade deleted)
+    const deleteResult = await prisma.product.deleteMany({});
+    console.log(`✓ Deleted ${deleteResult.count} existing products`);
+
     console.log('Seeding products...');
     const result = await productService.createMany(SAMPLE_PRODUCTS);
     console.log(`✓ Seeded ${result.count} products`);
+    console.log(`\n✓ Total products in database: ${result.count}`);
   } catch (error) {
     console.error('Seeding failed:', error);
     process.exit(1);
+  } finally {
+    await prisma.$disconnect();
   }
 }
 

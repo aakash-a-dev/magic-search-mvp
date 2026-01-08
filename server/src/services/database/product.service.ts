@@ -5,7 +5,7 @@ export interface CreateProductInput {
   productId: string;
   title: string;
   category?: string;
-  brandName?: string;
+  brandName?: string | null;
   imageUrl: string;
   price?: number;
   extractedMetadata?: Record<string, any>;

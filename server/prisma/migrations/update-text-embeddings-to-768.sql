@@ -18,3 +18,6 @@ WITH (lists = 100);
 -- Note: After running this migration, you'll need to regenerate all text embeddings
 -- using: npm run process:products
 
+
+
+
